@@ -1,0 +1,67 @@
+---
+title: "BSMM-lab-1"
+subtitle: "BSMM 8740 Fall 2023"
+author: "Add your name here"
+date: "Add the date here"
+format: html
+editor: visual
+self-contained: true
+---
+
+## Setup
+
+Load packages and data:
+
+```{r load-pkg-data}
+#| message: false
+# install the package 'Lahman'
+install.packages('Lahman')
+# load the package
+library(Lahman)
+```
+
+## Exercises
+
+### Exercise 1
+
+```{r glimpse-data}
+dplyr::glimpse(Teams)
+```
+
+The `Teams` dataset has \_\_\_ observations and \_\_\_ variables.
+
+### Exercise 2
+
+...
+
+### Exercise 3
+
+...
+
+### Exercise 4
+
+...
+
+### Exercise 5
+
+...
+
+### Exercise 6
+
+...
+
+### Exercise 7
+
+...
+
+### Exercise 8
+
+...
+
+### Exercise 9
+
+...
+
+### Exercise 10
+
+...
