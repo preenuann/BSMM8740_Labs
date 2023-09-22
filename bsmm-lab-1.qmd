@@ -92,7 +92,7 @@ mets_ben
 
 ```{r}
 
-# Add a column to identify whether the Mets performed better or worse than expected
+# Adding a field to identify if the team performed better or worse than expected
 mets_ben <- mets_ben |>
  dplyr:: mutate(Performance = ifelse(W > W_hat, "Better", "Worse"))
 
@@ -114,8 +114,8 @@ print(summary_stats)
 ### Exercise 6
 
 ```{r}
+# Finding the teams best performance during Ben's time
 best_seasons <- dplyr::arrange(mets_ben, desc(W))
-
 best_seasons
 
 ```
@@ -125,6 +125,7 @@ best_seasons
 ### Exercise 7
 
 ```{r}
+# Ranking of the team's peformance wrt our model
 mets_ben <-mets_ben |>
   dplyr::mutate(Diff = W -W_hat) |>
   dplyr::arrange(desc(Diff))
@@ -141,6 +142,7 @@ View(mets_ben)
 ### Exercise 8
 
 ```{r}
+# Summary of the team's performance
 mets_ben |>
   dplyr::summarize(
     num_years = n(), 
@@ -163,39 +165,23 @@ mets_ben |>
 
 ### Exercise 10
 
-```{r}
-
-```
 
 ```{r}
-
 library(dplyr)
-mets_ben <- mets_ben |>
-  dplyr::mutate(
-    gm = case_when(
-      yearID == 2004 ~ "Jim Duquette",
-      yearID >= 2005 & yearID <= 2010 ~ "Omar Minaya",
-      yearID >= 2011 ~ "Sandy Alderson"
-    )
-  )
-
-
-
-
-
+mets_ben <- mets_ben %>% 
+  dplyr::mutate(gm = ifelse(yearID == 2004,"Jim Duquette", 
+         ifelse(yearID >= 2005 & yearID <= 2010,"Omar Minaya","Sandy Alderson"
+         )))
+print(mets_ben)
 ```
 
-```{r}
-mets_ben
-```
-
-... \# Excercise 11
+###Excercise 11
 
 ```{r Group by the manager (gm) variable and summarize the data}
  
-manager_summary <- mets_ben |>
-  group_by(gm) |>
-  summarize(
+manager_summary <- mets_ben %>%
+  group_by(gm) %>%
+  dplyr::summarize(
     num_years = n(),
     total_W = sum(W),
     total_L = sum(L),
@@ -205,6 +191,4 @@ manager_summary <- mets_ben |>
 
 # Print the manager summary
 manager_summary
-
-
 ```
