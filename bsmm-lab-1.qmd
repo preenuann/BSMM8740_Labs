@@ -13,26 +13,20 @@ self-contained: true
 Load packages and data:
 
 ```{r}
+library("Lahman")
+library("tidyverse")
 ```
 
 ```{r load-pkg-data}
 #| message: false
-library(Lahman)
 ```
 
 ## Exercises
 
 ### Exercise 1
 
-```{r}
-install.packages("tidyverse")
-library(tidyverse)
-
-```
-
 ```{r glimpse-data}
-library(Lahman)
-dim(Teams)
+
 dplyr::glimpse(Teams)
 
 ```
@@ -46,27 +40,16 @@ help(Teams)
 
 ### Exercise 2
 
-```{r Ben Baumer worked for the New York Mets from 2004 to 2012}
-view(Teams)
-```
-
 ```{r}
-mets <- Teams  %>% 
+mets <- Teams  |>
   dplyr::filter(teamID == "NYN")
-my_mets <- mets %>% 
-  dplyr::filter(yearID >=2004 & yearID <=2012)
-my_mets %>% 
-  dplyr::select(yearID,W,L,G)
+my_mets <- mets |> 
+  dplyr::filter(yearID>=2004 & yearID<=2012)
+my_mets |> 
+  dplyr::select(W,L,yearID,G)
 ```
 
 ### Exercise 3
-
-```{r}
-mets_ben <- Teams %>%
-  dplyr::select(yearID, G, teamID,R, RA, W, L) %>%
-  dplyr::filter(teamID == "NYN" & yearID %in% 2004:2012)
-
-```
 
 ```{r}
 mets_ben <- Teams |>
@@ -75,8 +58,9 @@ mets_ben <- Teams |>
 mets_ben
 ```
 
+
 ```{r}
-view(mets_ben)
+dplyr::glimpse(mets_ben)
 ```
 
 ```{r}
@@ -88,21 +72,13 @@ mets_ben
 ### Exercise 4
 
 ```{r}
-mets_ben <- mets_ben %>%
-  dplyr::mutate(WPct = 1 / (1 + (RA / RS) * 2))
-
-```
-
-```         
-```
-
-```{r}
+mets_ben <- mets_ben |>
+  dplyr::mutate(WPct = (1/(1+((RA/RS)^2))),WinPct = W/G,)
 mets_ben
 
 ```
 
-```         
-```
+       
 
 ```{r}
 mets_ben <- mets_ben |>
@@ -117,7 +93,7 @@ mets_ben
 ```{r}
 
 # Add a column to identify whether the Mets performed better or worse than expected
-mets_ben <- mets_ben %>%
+mets_ben <- mets_ben |>
  dplyr:: mutate(Performance = ifelse(W > W_hat, "Better", "Worse"))
 
 mets_ben
@@ -127,8 +103,8 @@ mets_ben
 ```{r}
 library(dplyr)
 
-summary_stats <- mets_ben %>%
-  group_by(Performance) %>%
+summary_stats <- mets_ben |>
+  group_by(Performance) |>
   summarize(count = n())
 
 print(summary_stats)
@@ -149,7 +125,7 @@ best_seasons
 ### Exercise 7
 
 ```{r}
-mets_ben <-mets_ben %>% 
+mets_ben <-mets_ben |>
   dplyr::mutate(Diff = W -W_hat) |>
   dplyr::arrange(desc(Diff))
 
@@ -194,7 +170,7 @@ mets_ben |>
 ```{r}
 
 library(dplyr)
-mets_ben <- mets_ben %>%
+mets_ben <- mets_ben |>
   dplyr::mutate(
     gm = case_when(
       yearID == 2004 ~ "Jim Duquette",
@@ -217,8 +193,8 @@ mets_ben
 
 ```{r Group by the manager (gm) variable and summarize the data}
  
-manager_summary <- mets_ben %>%
-  group_by(gm) %>%
+manager_summary <- mets_ben |>
+  group_by(gm) |>
   summarize(
     num_years = n(),
     total_W = sum(W),
