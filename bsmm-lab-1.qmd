@@ -167,6 +167,7 @@ mets_ben |>
 
 
 ```{r}
+# Using if-else to categorize the data by the managers
 library(dplyr)
 mets_ben <- mets_ben %>% 
   dplyr::mutate(gm = ifelse(yearID == 2004,"Jim Duquette", 
@@ -178,7 +179,7 @@ print(mets_ben)
 ###Excercise 11
 
 ```{r Group by the manager (gm) variable and summarize the data}
- 
+# Grouping by the managers and summarizing the data 
 manager_summary <- mets_ben %>%
   group_by(gm) %>%
   dplyr::summarize(
